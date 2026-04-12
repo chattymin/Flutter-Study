@@ -29,3 +29,11 @@ fvm install stable
 // stable 버전으로 global 버전 설정
 fvm global stable
 ```
+
+## 프로젝트 생성 이후
+프로젝트 FVM을 초기화 해준다.    
+해당하는 프로젝트 터미널에서 아래와 같은 명령어를 입력해준다
+
+```bash
+fvm use stable
+```
