@@ -12,14 +12,14 @@ class User {
   final int age;
 
   // 생성자 — Named Parameter + this
-  User({required String name, required this.age});
+  User({required this.name, required this.age});
 
   // getter — 계산된 속성
   String get info => '$name ($age)';
 }
 
-final user = User(name: 'Minasel', age: 24);
-print(user.info); // Minasel (24)
+final user = User(name: 'Dongmin', age: 27);
+print(user.info); // Dongmin (27)
 ```
 
 ### 주요 개념
@@ -58,9 +58,9 @@ class User {
 ### 사용 예시
 
 ```dart
-final user1 = User(name: 'Min', age: 25);              // 기본 생성자
+final user1 = User(name: 'Dong', age: 25);              // 기본 생성자
 final user2 = User.guest();                             // 게스트 ①
-final user3 = User.fromJson({'name': 'Min', 'age': 24}); // JSON에서 생성
+final user3 = User.fromJson({'name': 'Min', 'age': 27}); // JSON에서 생성
 ```
 
 ### Named Constructor가 유용한 경우
