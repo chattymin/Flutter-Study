@@ -73,4 +73,6 @@ void main() {
 
 ---
 
+- abastract class, interface도 존재한다. 해당 부분은 kotlin과 동일하니 설명은 패스.   
+
 > 💡 **관련 링크**: [클래스 보기](./class.md) | [private 접근 제어자 보기](./private_access.md)
