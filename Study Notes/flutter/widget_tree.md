@@ -47,6 +47,7 @@ Widget Tree    →   Element Tree    →   Render Tree
 ### 진짜 신경안써도 돼요?
 그럴리가요.   
 성능을 챙기려면 각 Tree가 어떻게 동작하는지 알고, 원리에 맞게 구현해야 해요.   
+아래서 설명하는 리빌드의 원리를 알 수 있어요.
 > 💡 **관련 링크**: [자세히 보러 가기](./widget_tree_struct.md)
 
 
