@@ -52,6 +52,56 @@ class MusicPlayer extends StatelessWidget {
                 ),
 
                 // control buttons
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: null,
+                      child: const Icon(
+                        Icons.shuffle,
+                        color: Colors.white24,
+                        size: 24,
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: null,
+                      child: const Icon(
+                        Icons.skip_previous,
+                        color: Colors.white,
+                        size: 48,
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: null,
+                      child: const Icon(
+                        Icons.pause_circle_filled,
+                        color: Colors.white,
+                        size: 96,
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: null,
+                      child: const Icon(
+                        Icons.skip_next,
+                        color: Colors.white,
+                        size: 48,
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: null,
+                      child: const Icon(
+                        Icons.repeat,
+                        color: Colors.white24,
+                        size: 24,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
