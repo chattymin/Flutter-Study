@@ -4,6 +4,7 @@ class MusicPlayer extends StatelessWidget {
   const MusicPlayer({super.key});
   static const beginColor = Color.fromARGB(255, 177, 166, 99);
   static const endColor = Color.fromARGB(255, 98, 89, 54);
+  static const albumImage = 'assets/images/album_nanchun.jpg';
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +18,22 @@ class MusicPlayer extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: const SafeArea(
+        body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
                 /// top content
-                MusicPlayerTopContents(
+                const MusicPlayerTopContents(
                   title: "새소년",
                   onLeftPressed: null,
                   onRightPressed: null,
                 ),
 
                 // album image
+                SizedBox(height: 32),
+
+                Image.asset('assets/images/album.png', fit: BoxFit.cover),
 
                 // album info
 
