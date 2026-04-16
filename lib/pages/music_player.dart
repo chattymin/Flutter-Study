@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
-class MusicPlayer extends StatelessWidget {
+class MusicPlayer extends StatefulWidget {
   const MusicPlayer({super.key});
+
+  @override
+  State<MusicPlayer> createState() => _MusicPlayerState();
+}
+
+class _MusicPlayerState extends State<MusicPlayer> {
   static const beginColor = Color.fromARGB(255, 177, 166, 99);
   static const endColor = Color.fromARGB(255, 98, 89, 54);
   static const albumImage = 'assets/images/album_nanchun.jpg';
   static const title = "난춘";
   static const artist = "새소년";
+  static const musicFullSec = 228;
+
+  bool _isLiked = false;
+  bool _isPlaying = true;
+  int _musicCurrentSec = 112;
 
   @override
   Widget build(BuildContext context) {
@@ -38,27 +49,39 @@ class MusicPlayer extends StatelessWidget {
 
                 // album info
                 const SizedBox(height: 32),
-                const AlbumInfo(
+                AlbumInfo(
                   title: title,
                   artist: artist,
-                  onLikePressed: null,
+                  isLiked: _isLiked,
+                  onLikePressed: () {
+                    setState(() {
+                      _isLiked = !_isLiked;
+                    });
+                  },
                 ),
 
                 // music play slider
                 MusicPlayerSlider(
-                  musicFullSec: 228,
-                  musicCurrentSec: 112,
+                  musicFullSec: musicFullSec,
+                  musicCurrentSec: _musicCurrentSec,
                   onSliderChanged: (value) {
-                    // control music state
+                    setState(() {
+                      _musicCurrentSec = (value * musicFullSec).toInt();
+                    });
                   },
                 ),
 
                 // music controller
                 const SizedBox(height: 12),
                 MusicController(
+                  isPlaying: _isPlaying,
                   onNextPressed: null,
                   onPreviousPressed: null,
-                  onPlayPressed: null,
+                  onPlayPressed: () {
+                    setState(() {
+                      _isPlaying = !_isPlaying;
+                    });
+                  },
                   onRepeatPressed: null,
                   onShufflePressed: null,
                 ),
@@ -118,12 +141,14 @@ class MusicPlayerTopContents extends StatelessWidget {
 class AlbumInfo extends StatelessWidget {
   final String title;
   final String artist;
+  final bool isLiked;
   final void Function()? onLikePressed;
 
   const AlbumInfo({
     super.key,
     required this.title,
     required this.artist,
+    required this.isLiked,
     required this.onLikePressed,
   });
 
@@ -156,8 +181,8 @@ class AlbumInfo extends StatelessWidget {
 
         GestureDetector(
           onTap: onLikePressed,
-          child: const Icon(
-            Icons.favorite_outline,
+          child: Icon(
+            isLiked ? Icons.favorite : Icons.favorite_outline,
             color: Colors.white,
             size: 32,
           ),
@@ -231,6 +256,7 @@ class MusicPlayerSlider extends StatelessWidget {
 }
 
 class MusicController extends StatelessWidget {
+  final bool isPlaying;
   final void Function()? onShufflePressed;
   final void Function()? onPreviousPressed;
   final void Function()? onPlayPressed;
@@ -239,6 +265,7 @@ class MusicController extends StatelessWidget {
 
   const MusicController({
     super.key,
+    required this.isPlaying,
     required this.onShufflePressed,
     required this.onPreviousPressed,
     required this.onPlayPressed,
@@ -263,8 +290,8 @@ class MusicController extends StatelessWidget {
 
         GestureDetector(
           onTap: onPlayPressed,
-          child: const Icon(
-            Icons.pause_circle_filled,
+          child: Icon(
+            isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
             color: Colors.white,
             size: 96,
           ),
