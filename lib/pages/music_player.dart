@@ -51,56 +51,14 @@ class MusicPlayer extends StatelessWidget {
                   },
                 ),
 
-                // control buttons
+                // music controller
                 const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: null,
-                      child: const Icon(
-                        Icons.shuffle,
-                        color: Colors.white24,
-                        size: 24,
-                      ),
-                    ),
-
-                    GestureDetector(
-                      onTap: null,
-                      child: const Icon(
-                        Icons.skip_previous,
-                        color: Colors.white,
-                        size: 48,
-                      ),
-                    ),
-
-                    GestureDetector(
-                      onTap: null,
-                      child: const Icon(
-                        Icons.pause_circle_filled,
-                        color: Colors.white,
-                        size: 96,
-                      ),
-                    ),
-
-                    GestureDetector(
-                      onTap: null,
-                      child: const Icon(
-                        Icons.skip_next,
-                        color: Colors.white,
-                        size: 48,
-                      ),
-                    ),
-
-                    GestureDetector(
-                      onTap: null,
-                      child: const Icon(
-                        Icons.repeat,
-                        color: Colors.white24,
-                        size: 24,
-                      ),
-                    ),
-                  ],
+                MusicController(
+                  onNextPressed: null,
+                  onPreviousPressed: null,
+                  onPlayPressed: null,
+                  onRepeatPressed: null,
+                  onShufflePressed: null,
                 ),
               ],
             ),
@@ -267,5 +225,59 @@ class MusicPlayerSlider extends StatelessWidget {
     final minutes = sec ~/ 60;
     final seconds = (sec % 60);
     return "$minutes:${seconds.toString().padLeft(2, '0')}";
+  }
+}
+
+class MusicController extends StatelessWidget {
+  final void Function()? onShufflePressed;
+  final void Function()? onPreviousPressed;
+  final void Function()? onPlayPressed;
+  final void Function()? onNextPressed;
+  final void Function()? onRepeatPressed;
+
+  const MusicController({
+    super.key,
+    required this.onShufflePressed,
+    required this.onPreviousPressed,
+    required this.onPlayPressed,
+    required this.onNextPressed,
+    required this.onRepeatPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: onShufflePressed,
+          child: const Icon(Icons.shuffle, color: Colors.white24, size: 24),
+        ),
+
+        GestureDetector(
+          onTap: onPreviousPressed,
+          child: const Icon(Icons.skip_previous, color: Colors.white, size: 48),
+        ),
+
+        GestureDetector(
+          onTap: onPlayPressed,
+          child: const Icon(
+            Icons.pause_circle_filled,
+            color: Colors.white,
+            size: 96,
+          ),
+        ),
+
+        GestureDetector(
+          onTap: onNextPressed,
+          child: const Icon(Icons.skip_next, color: Colors.white, size: 48),
+        ),
+
+        GestureDetector(
+          onTap: onRepeatPressed,
+          child: const Icon(Icons.repeat, color: Colors.white24, size: 24),
+        ),
+      ],
+    );
   }
 }
