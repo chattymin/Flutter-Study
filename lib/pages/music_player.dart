@@ -31,12 +31,43 @@ class MusicPlayer extends StatelessWidget {
                 ),
 
                 // album image
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
 
-                Image.asset('assets/images/album.png', fit: BoxFit.cover),
+                Image.asset(albumImage, fit: BoxFit.cover),
 
                 // album info
-
+                const SizedBox(height: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "NAN CHUN 난춘",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          "새소년",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: null,
+                      icon: Icon(Icons.favorite_outline, color: Colors.white),
+                      iconSize: 32,
+                    ),
+                  ],
+                ),
                 // indicator
 
                 // control buttons
