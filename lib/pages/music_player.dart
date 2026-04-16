@@ -32,42 +32,12 @@ class MusicPlayer extends StatelessWidget {
 
                 // album image
                 const SizedBox(height: 32),
-
                 Image.asset(albumImage, fit: BoxFit.cover),
 
                 // album info
                 const SizedBox(height: 32),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "NAN CHUN 난춘",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          "새소년",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: null,
-                      icon: Icon(Icons.favorite_outline, color: Colors.white),
-                      iconSize: 32,
-                    ),
-                  ],
-                ),
+                const AlbumInfo(title: "NAN CHUN 난춘", artist: "새소년"),
+
                 // indicator
 
                 // control buttons
@@ -114,6 +84,48 @@ class MusicPlayerTopContents extends StatelessWidget {
         IconButton(
           onPressed: onRightPressed,
           icon: Icon(Icons.more_horiz, color: Colors.white, size: 32),
+        ),
+      ],
+    );
+  }
+}
+
+class AlbumInfo extends StatelessWidget {
+  final String title;
+  final String artist;
+
+  const AlbumInfo({super.key, required this.title, required this.artist});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              artist,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
+        ),
+        const IconButton(
+          onPressed: null,
+          icon: Icon(Icons.favorite_outline, color: Colors.white),
+          iconSize: 32,
         ),
       ],
     );
