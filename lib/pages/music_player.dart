@@ -23,36 +23,10 @@ class MusicPlayer extends StatelessWidget {
             child: Column(
               children: [
                 /// top content
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.white,
-                        size: 32,
-                      ),
-                    ),
-
-                    Text(
-                      "새소년",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-
-                    IconButton(
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.more_horiz,
-                        color: Colors.white,
-                        size: 32,
-                      ),
-                    ),
-                  ],
+                MusicPlayerTopContents(
+                  title: "새소년",
+                  onLeftPressed: null,
+                  onRightPressed: null,
                 ),
 
                 // album image
@@ -67,6 +41,46 @@ class MusicPlayer extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class MusicPlayerTopContents extends StatelessWidget {
+  final String title;
+  final void Function()? onLeftPressed;
+  final void Function()? onRightPressed;
+
+  const MusicPlayerTopContents({
+    super.key,
+    required this.title,
+    required this.onLeftPressed,
+    required this.onRightPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: onLeftPressed,
+          icon: Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 32),
+        ),
+
+        Text(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+        IconButton(
+          onPressed: onRightPressed,
+          icon: Icon(Icons.more_horiz, color: Colors.white, size: 32),
+        ),
+      ],
     );
   }
 }
