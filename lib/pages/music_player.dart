@@ -130,7 +130,7 @@ class MusicPlayerTopContents extends StatelessWidget {
         ),
 
         GestureDetector(
-          onTap: onLeftPressed,
+          onTap: onRightPressed,
           child: const Icon(Icons.more_horiz, color: Colors.white, size: 32),
         ),
       ],
@@ -227,7 +227,7 @@ class MusicPlayerSlider extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _formatMillisec(musicCurrentSec),
+              _formatAudioTime(musicCurrentSec),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -235,7 +235,7 @@ class MusicPlayerSlider extends StatelessWidget {
               ),
             ),
             Text(
-              "-${_formatMillisec(musicFullSec - musicCurrentSec)}",
+              "-${_formatAudioTime(musicFullSec - musicCurrentSec)}",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -248,7 +248,7 @@ class MusicPlayerSlider extends StatelessWidget {
     );
   }
 
-  String _formatMillisec(int sec) {
+  String _formatAudioTime(int sec) {
     final minutes = sec ~/ 60;
     final seconds = (sec % 60);
     return "$minutes:${seconds.toString().padLeft(2, '0')}";
