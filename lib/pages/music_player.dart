@@ -38,7 +38,41 @@ class MusicPlayer extends StatelessWidget {
                 const SizedBox(height: 32),
                 const AlbumInfo(title: "NAN CHUN 난춘", artist: "새소년"),
 
-                // indicator
+                // slider
+                SliderTheme(
+                  data: SliderThemeData(
+                    trackHeight: 3,
+                    padding: EdgeInsets.only(top: 16),
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 6,
+                    ),
+                    activeTrackColor: Colors.white,
+                    inactiveTrackColor: Colors.white24,
+                    thumbColor: Colors.white,
+                  ),
+                  child: Slider(value: 0.48, onChanged: (value) {}),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "1:52",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    Text(
+                      "-1:56",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
 
                 // control buttons
               ],
