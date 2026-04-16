@@ -74,9 +74,13 @@ class MusicPlayerTopContents extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          onPressed: onLeftPressed,
-          icon: Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 32),
+        GestureDetector(
+          onTap: onLeftPressed,
+          child: const Icon(
+            Icons.keyboard_arrow_down,
+            color: Colors.white,
+            size: 32,
+          ),
         ),
 
         Text(
@@ -88,9 +92,9 @@ class MusicPlayerTopContents extends StatelessWidget {
           ),
         ),
 
-        IconButton(
-          onPressed: onRightPressed,
-          icon: Icon(Icons.more_horiz, color: Colors.white, size: 32),
+        GestureDetector(
+          onTap: onLeftPressed,
+          child: const Icon(Icons.more_horiz, color: Colors.white, size: 32),
         ),
       ],
     );
