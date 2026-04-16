@@ -38,40 +38,13 @@ class MusicPlayer extends StatelessWidget {
                 const SizedBox(height: 32),
                 const AlbumInfo(title: "NAN CHUN 난춘", artist: "새소년"),
 
-                // slider
-                SliderTheme(
-                  data: SliderThemeData(
-                    trackHeight: 3,
-                    padding: EdgeInsets.only(top: 16),
-                    thumbShape: const RoundSliderThumbShape(
-                      enabledThumbRadius: 6,
-                    ),
-                    activeTrackColor: Colors.white,
-                    inactiveTrackColor: Colors.white24,
-                    thumbColor: Colors.white,
-                  ),
-                  child: Slider(value: 0.48, onChanged: (value) {}),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "1:52",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                    Text(
-                      "-1:56",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ],
+                // music play slider
+                MusicPlayerSlider(
+                  musicFullSec: 228,
+                  musicCurrentSec: 112,
+                  onSliderChanged: (value) {
+                    // control music state
+                  },
                 ),
 
                 // control buttons
@@ -163,5 +136,68 @@ class AlbumInfo extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class MusicPlayerSlider extends StatelessWidget {
+  final int musicFullSec;
+  final int musicCurrentSec;
+  final void Function(double)? onSliderChanged;
+
+  const MusicPlayerSlider({
+    super.key,
+    required this.musicFullSec,
+    required this.musicCurrentSec,
+    required this.onSliderChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SliderTheme(
+          data: SliderThemeData(
+            trackHeight: 5,
+            padding: EdgeInsets.only(top: 16),
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+            activeTrackColor: Colors.white,
+            inactiveTrackColor: Colors.white24,
+            thumbColor: Colors.white,
+          ),
+          child: Slider(
+            value: musicCurrentSec / musicFullSec.toDouble(),
+            onChanged: onSliderChanged,
+          ),
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _formatMillisec(musicCurrentSec),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            Text(
+              "-${_formatMillisec(musicFullSec - musicCurrentSec)}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  String _formatMillisec(int sec) {
+    final minutes = sec ~/ 60;
+    final seconds = (sec % 60);
+    return "$minutes:${seconds.toString().padLeft(2, '0')}";
   }
 }
