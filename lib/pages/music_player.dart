@@ -36,7 +36,11 @@ class MusicPlayer extends StatelessWidget {
 
                 // album info
                 const SizedBox(height: 32),
-                const AlbumInfo(title: "NAN CHUN 난춘", artist: "새소년"),
+                const AlbumInfo(
+                  title: "NAN CHUN 난춘",
+                  artist: "새소년",
+                  onLikePressed: null,
+                ),
 
                 // music play slider
                 MusicPlayerSlider(
@@ -104,8 +108,14 @@ class MusicPlayerTopContents extends StatelessWidget {
 class AlbumInfo extends StatelessWidget {
   final String title;
   final String artist;
+  final void Function()? onLikePressed;
 
-  const AlbumInfo({super.key, required this.title, required this.artist});
+  const AlbumInfo({
+    super.key,
+    required this.title,
+    required this.artist,
+    required this.onLikePressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -133,10 +143,14 @@ class AlbumInfo extends StatelessWidget {
             ),
           ],
         ),
-        const IconButton(
-          onPressed: null,
-          icon: Icon(Icons.favorite_outline, color: Colors.white),
-          iconSize: 32,
+
+        GestureDetector(
+          onTap: onLikePressed,
+          child: const Icon(
+            Icons.favorite_outline,
+            color: Colors.white,
+            size: 32,
+          ),
         ),
       ],
     );
