@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_study/providers/music_player_provider.dart';
+import 'package:flutter_study/providers/song_list_provider.dart';
+import 'package:go_router/go_router.dart';
 
-class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({super.key});
+class MusicPlayerPage extends ConsumerWidget {
+  final String songId;
+  const MusicPlayerPage({super.key, required this.songId});
 
-  @override
-  State<MusicPlayer> createState() => _MusicPlayerState();
-}
-
-class _MusicPlayerState extends State<MusicPlayer> {
   static const beginColor = Color.fromARGB(255, 177, 166, 99);
   static const endColor = Color.fromARGB(255, 98, 89, 54);
-  static const albumImage = 'assets/images/album_nanchun.jpg';
-  static const title = "난춘";
-  static const artist = "새소년";
-  static const musicFullSec = 228;
-
-  bool _isLiked = false;
-  bool _isPlaying = true;
-  int _musicCurrentSec = 112;
+  static const defaultAlbumImage = 'assets/images/album_nanchun.jpg';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final musicPlayerState = ref.watch(musicPlayerProvider);
+    final songListState = ref.watch(songListProvider);
+    final song = songListState.songs.firstWhere(
+      (song) => song.id == int.parse(songId),
+    );
+
+    ref.listen(musicPlayerProvider, (previous, next) {
+      if (next.isPlaying) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("재생중")));
+      }
+    });
+
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -37,50 +44,49 @@ class _MusicPlayerState extends State<MusicPlayer> {
             child: Column(
               children: [
                 /// top content
-                const MusicPlayerTopContents(
-                  title: artist,
-                  onLeftPressed: null,
+                MusicPlayerTopContents(
+                  title: song.artist,
+                  onLeftPressed: () => context.pop(),
                   onRightPressed: null,
                 ),
 
                 // album image
                 const SizedBox(height: 32),
-                Image.asset(albumImage, fit: BoxFit.cover),
+                Image.asset(
+                  song.albumArt ?? defaultAlbumImage,
+                  fit: BoxFit.cover,
+                ),
 
                 // album info
                 const SizedBox(height: 32),
                 AlbumInfo(
-                  title: title,
-                  artist: artist,
-                  isLiked: _isLiked,
+                  title: song.title,
+                  artist: song.artist,
+                  isLiked: song.isFavorite,
                   onLikePressed: () {
-                    setState(() {
-                      _isLiked = !_isLiked;
-                    });
+                    ref.read(songListProvider.notifier).toggleFavorite(song.id);
                   },
                 ),
 
                 // music play slider
                 MusicPlayerSlider(
-                  musicFullSec: musicFullSec,
-                  musicCurrentSec: _musicCurrentSec,
+                  musicFullSec: song.duration,
+                  musicCurrentSec: musicPlayerState.musicCurrentSec,
                   onSliderChanged: (value) {
-                    setState(() {
-                      _musicCurrentSec = (value * musicFullSec).toInt();
-                    });
+                    ref
+                        .read(musicPlayerProvider.notifier)
+                        .seekTo(value * song.duration);
                   },
                 ),
 
                 // music controller
                 const SizedBox(height: 12),
                 MusicController(
-                  isPlaying: _isPlaying,
+                  isPlaying: musicPlayerState.isPlaying,
                   onNextPressed: null,
                   onPreviousPressed: null,
                   onPlayPressed: () {
-                    setState(() {
-                      _isPlaying = !_isPlaying;
-                    });
+                    ref.read(musicPlayerProvider.notifier).togglePlay();
                   },
                   onRepeatPressed: null,
                   onShufflePressed: null,
@@ -183,7 +189,7 @@ class AlbumInfo extends StatelessWidget {
           onTap: onLikePressed,
           child: Icon(
             isLiked ? Icons.favorite : Icons.favorite_outline,
-            color: Colors.white,
+            color: isLiked ? Colors.red : Colors.white,
             size: 32,
           ),
         ),
@@ -194,7 +200,7 @@ class AlbumInfo extends StatelessWidget {
 
 class MusicPlayerSlider extends StatelessWidget {
   final int musicFullSec;
-  final int musicCurrentSec;
+  final double musicCurrentSec;
   final void Function(double)? onSliderChanged;
 
   const MusicPlayerSlider({
@@ -218,7 +224,7 @@ class MusicPlayerSlider extends StatelessWidget {
             thumbColor: Colors.white,
           ),
           child: Slider(
-            value: musicCurrentSec / musicFullSec.toDouble(),
+            value: musicCurrentSec / musicFullSec,
             onChanged: onSliderChanged,
           ),
         ),
@@ -248,9 +254,9 @@ class MusicPlayerSlider extends StatelessWidget {
     );
   }
 
-  String _formatAudioTime(int sec) {
+  String _formatAudioTime(double sec) {
     final minutes = sec ~/ 60;
-    final seconds = (sec % 60);
+    final seconds = (sec % 60).toInt();
     return "$minutes:${seconds.toString().padLeft(2, '0')}";
   }
 }
