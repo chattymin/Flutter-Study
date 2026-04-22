@@ -81,17 +81,14 @@ class SongListNotifier extends Notifier<SongListState> {
   }
 
   void toggleFavorite(int songId) {
-    state =
-        [
-              for (final song in state.songs)
-                {
-                  if (song.id == songId)
-                    {song.copyWith(isFavorite: !song.isFavorite!)}
-                  else
-                    song,
-                },
-            ]
-            as SongListState;
+    state = SongListState(
+      songs: [
+        for (final song in state.songs)
+          song.id == songId
+              ? song.copyWith(isFavorite: !song.isFavorite)
+              : song,
+      ],
+    );
   }
 }
 

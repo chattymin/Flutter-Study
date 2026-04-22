@@ -38,7 +38,7 @@ class MusicPlayerNotifier extends Notifier<MusicPlayerState> {
   void seekTo(double position) =>
       state = state.copyWith(musicCurrentSec: position);
   void setCurrentSongId(int songId) =>
-      state = state.copyWith(currentSongId: songId, musicCurrentSec: 0);
+      state = state.copyWith(currentSongId: songId, musicCurrentSec: 0.0);
 }
 
 final musicPlayerProvider =
