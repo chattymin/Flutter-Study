@@ -4,8 +4,8 @@ import 'package:flutter_study/providers/song_list_provider.dart';
 import 'package:go_router/go_router.dart';
 
 class SongFavoritesListPage extends ConsumerWidget {
-  static const beginColor = Color.fromARGB(255, 177, 166, 99);
-  static const endColor = Color.fromARGB(255, 98, 89, 54);
+  static const beginColor = Color.fromARGB(255, 56, 74, 172);
+  static const endColor = Colors.black;
 
   const SongFavoritesListPage({super.key});
 
@@ -16,50 +16,128 @@ class SongFavoritesListPage extends ConsumerWidget {
         .where((song) => song.isFavorite)
         .toList();
 
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [beginColor, endColor],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text('Favorites Songs'),
-          backgroundColor: Colors.transparent,
-        ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              if (favoriteSongs.isEmpty)
-                Text("좋아하는 곡이 없습니다.")
-              else
-                Flexible(
-                  child: ListView.builder(
-                    itemCount: favoriteSongs.length,
-                    itemBuilder: (context, index) {
-                      final song = favoriteSongs[index];
-                      return ListTile(
-                        title: Text(song.title),
-                        subtitle: Text(song.artist),
-                        trailing: Icon(
-                          song.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_outline,
-                          color: song.isFavorite ? Colors.red : Colors.white,
-                        ),
-                        onTap: () {
-                          context.push('/player/${song.id}');
-                        },
-                      );
-                    },
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [beginColor, endColor],
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: MediaQuery.of(context).padding.top),
+                GestureDetector(
+                  child: Icon(
+                    Icons.arrow_back_ios_sharp,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    context.pop();
+                  },
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Liked Songs",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-            ],
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${favoriteSongs.length} songs",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white60,
+                      ),
+                    ),
+
+                    Stack(
+                      alignment: AlignmentGeometry.bottomEnd,
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(Icons.circle, size: 80, color: Colors.green),
+                            Icon(
+                              Icons.play_arrow_rounded,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Icon(
+                            Icons.shuffle,
+                            size: 16,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
+
+          if (favoriteSongs.isEmpty)
+            Text(
+              "좋아하는 곡이 없습니다.",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          else
+            Flexible(
+              child: ListView.builder(
+                itemCount: favoriteSongs.length,
+                itemBuilder: (context, index) {
+                  final song = favoriteSongs[index];
+                  return ListTile(
+                    leading: Icon(Icons.abc),
+                    title: Text(
+                      song.title,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      song.artist,
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    trailing: Icon(
+                      song.isFavorite ? Icons.favorite : Icons.favorite_outline,
+                      color: song.isFavorite ? Colors.red : Colors.white,
+                    ),
+                    onTap: () {
+                      context.push('/player/${song.id}');
+                    },
+                  );
+                },
+              ),
+            ),
+        ],
       ),
     );
   }
