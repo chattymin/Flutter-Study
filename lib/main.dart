@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_study/pages/song_favorites_list_page.dart';
 import 'package:go_router/go_router.dart';
 import 'pages/music_player_page.dart';
 import 'pages/song_list_page.dart';
@@ -50,6 +51,10 @@ final router = GoRouter(
           },
         );
       },
+    ),
+    GoRoute(
+      path: '/favorites',
+      builder: (context, state) => SongFavoritesListPage(),
     ),
   ],
 );

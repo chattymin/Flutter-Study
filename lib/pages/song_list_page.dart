@@ -13,7 +13,17 @@ class SongListPage extends ConsumerWidget {
     final playerState = ref.watch(musicPlayerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text('내 음악')),
+      appBar: AppBar(
+        title: Text('내 음악'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              context.push('/favorites');
+            },
+          ),
+        ],
+      ),
       body: ListView.builder(
         itemCount: songListState.songs.length,
         itemBuilder: (context, index) {
