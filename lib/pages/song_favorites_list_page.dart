@@ -29,6 +29,9 @@ class _SongFavoritesListPageState extends ConsumerState<SongFavoritesListPage> {
   @override
   Widget build(BuildContext context) {
     final songListState = ref.watch(songListProvider);
+    final favoriteMap = {
+      for (final s in songListState.songs) s.id: s.isFavorite,
+    };
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -83,7 +86,7 @@ class _SongFavoritesListPageState extends ConsumerState<SongFavoritesListPage> {
                       ),
                     ),
                     Stack(
-                      alignment: AlignmentGeometry.bottomEnd,
+                      alignment: AlignmentDirectional.bottomEnd,
                       children: [
                         Stack(
                           alignment: Alignment.center,
@@ -130,11 +133,8 @@ class _SongFavoritesListPageState extends ConsumerState<SongFavoritesListPage> {
               child: ListView.builder(
                 itemCount: favoriteSongs.length,
                 itemBuilder: (context, index) {
-                  final snapshotSong = favoriteSongs[index];
-
-                  final song = songListState.songs.firstWhere(
-                    (s) => s.id == snapshotSong.id,
-                  );
+                  final song = favoriteSongs[index];
+                  final isFavorited = favoriteMap[song.id] ?? false;
 
                   return ListTile(
                     leading: Icon(Icons.abc),
@@ -153,10 +153,8 @@ class _SongFavoritesListPageState extends ConsumerState<SongFavoritesListPage> {
                             .toggleFavorite(song.id);
                       },
                       child: Icon(
-                        song.isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_outline,
-                        color: song.isFavorite ? Colors.red : Colors.white,
+                        isFavorited ? Icons.favorite : Icons.favorite_outline,
+                        color: isFavorited ? Colors.red : Colors.white,
                       ),
                     ),
                     onTap: () {
