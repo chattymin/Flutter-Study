@@ -3,18 +3,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/providers/song_list_provider.dart';
 import 'package:go_router/go_router.dart';
 
-class SongFavoritesListPage extends ConsumerWidget {
+class SongFavoritesListPage extends ConsumerStatefulWidget {
   static const beginColor = Color.fromARGB(255, 56, 74, 172);
   static const endColor = Colors.black;
 
   const SongFavoritesListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final songListState = ref.watch(songListProvider);
-    final favoriteSongs = songListState.songs
+  ConsumerState<SongFavoritesListPage> createState() =>
+      _SongFavoritesListPageState();
+}
+
+class _SongFavoritesListPageState extends ConsumerState<SongFavoritesListPage> {
+  late List<Song> favoriteSongs;
+
+  @override
+  void initState() {
+    super.initState();
+    final songListState = ref.read(songListProvider);
+    favoriteSongs = songListState.songs
         .where((song) => song.isFavorite)
         .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final songListState = ref.watch(songListProvider);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -25,7 +39,10 @@ class SongFavoritesListPage extends ConsumerWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [beginColor, endColor],
+                colors: [
+                  SongFavoritesListPage.beginColor,
+                  SongFavoritesListPage.endColor,
+                ],
               ),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -65,7 +82,6 @@ class SongFavoritesListPage extends ConsumerWidget {
                         color: Colors.white60,
                       ),
                     ),
-
                     Stack(
                       alignment: AlignmentGeometry.bottomEnd,
                       children: [
@@ -80,7 +96,6 @@ class SongFavoritesListPage extends ConsumerWidget {
                             ),
                           ],
                         ),
-
                         Container(
                           padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
@@ -115,7 +130,12 @@ class SongFavoritesListPage extends ConsumerWidget {
               child: ListView.builder(
                 itemCount: favoriteSongs.length,
                 itemBuilder: (context, index) {
-                  final song = favoriteSongs[index];
+                  final snapshotSong = favoriteSongs[index];
+
+                  final song = songListState.songs.firstWhere(
+                    (s) => s.id == snapshotSong.id,
+                  );
+
                   return ListTile(
                     leading: Icon(Icons.abc),
                     title: Text(
@@ -126,9 +146,18 @@ class SongFavoritesListPage extends ConsumerWidget {
                       song.artist,
                       style: TextStyle(color: Colors.white70),
                     ),
-                    trailing: Icon(
-                      song.isFavorite ? Icons.favorite : Icons.favorite_outline,
-                      color: song.isFavorite ? Colors.red : Colors.white,
+                    trailing: GestureDetector(
+                      onTap: () {
+                        ref
+                            .read(songListProvider.notifier)
+                            .toggleFavorite(song.id);
+                      },
+                      child: Icon(
+                        song.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_outline,
+                        color: song.isFavorite ? Colors.red : Colors.white,
+                      ),
                     ),
                     onTap: () {
                       context.push('/player/${song.id}');
